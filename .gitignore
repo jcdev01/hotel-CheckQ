@@ -1,0 +1,33 @@
+# --- Python ---
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.eggs/
+
+# Ambientes virtuais
+venv/
+.venv/
+env/
+ENV/
+
+# --- Variáveis de ambiente / segredos ---
+.env
+.env.local
+
+# --- Dados persistidos (não versionar snapshot da fila) ---
+backend/dados/*.json
+
+# --- Testes / cobertura ---
+.pytest_cache/
+.coverage
+htmlcov/
+
+# --- Editor / SO ---
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# --- Logs ---
+*.log
