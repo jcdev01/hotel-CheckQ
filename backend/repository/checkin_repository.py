@@ -6,7 +6,7 @@ from domain.historico_checkin import HistoricoCheckin
 
 
 class CheckinRepository:
-    def __init__(self, caminho_banco: str = "sqlite:///checkin.db"):
+    def __init__(self, caminho_banco: str = "sqlite:///data/checkin.db"):
         self._engine = create_engine(caminho_banco)
         Base.metadata.create_all(self._engine)  # cria a tabela se não existir
 

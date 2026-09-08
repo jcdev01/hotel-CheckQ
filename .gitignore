@@ -16,7 +16,7 @@ ENV/
 .env.local
 
 # --- Dados persistidos (não versionar snapshot da fila) ---
-backend/dados/*.json
+backend/data/*.db
 
 # --- Banco de dados SQLite ---
 *.db
