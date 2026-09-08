@@ -1,7 +1,8 @@
 from sqlalchemy import create_engine, select
 from sqlalchemy.orm import Session
-
-from domain.checkin import Base, Checkin
+from domain.base import Base
+from domain.checkin import Checkin
+from domain.historico_checkin import HistoricoCheckin
 
 
 class CheckinRepository:
@@ -36,6 +37,22 @@ class CheckinRepository:
             if checkin is None:
                 raise IndexError("Fila vazia — não há check-in para atender")
 
+            registro_historico =HistoricoCheckin(
+                nome_hospede=checkin.nome_hospede,
+                numero_quarto=checkin.numero_quarto,
+                horario_entrada=checkin.horario_entrada,
+                horario_saida=checkin.horario_saida,
+            )
+            session.add(registro_historico)
+
             session.delete(checkin)
             session.commit()
             return checkin
+
+    def listar_historico(self) -> list[Checkin]:
+        """Retorna todos os checkins atendidos, na ordem de chegada (ORDER BY id)."""
+        with Session(self._engine) as session:
+            resultado = session.execute(
+                select(HistoricoCheckin).order_by(HistoricoCheckin.id)
+            )
+            return list(resultado.scalars().all())

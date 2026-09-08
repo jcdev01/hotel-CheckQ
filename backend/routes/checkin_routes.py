@@ -1,5 +1,6 @@
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
+from datetime import datetime
 
 from services.checkin_service import (
     CheckinService,
@@ -19,10 +20,10 @@ _service = CheckinService(_repository)
 class CheckinCreateSchema(BaseModel):
     nome_hospede: str
     numero_quarto: int
-    horario_entrada: str
-    horario_saida: str
+    horario_entrada: datetime
+    horario_saida: datetime
 
-
+#rota para o front chekin-app
 @router.post("/fila")
 def solicitar_checkin(dados: CheckinCreateSchema):
     try:
@@ -37,14 +38,22 @@ def solicitar_checkin(dados: CheckinCreateSchema):
         raise HTTPException(status_code=409, detail=str(erro))
 
 
+#rota para o front chekin-recepcao
 @router.get("/fila")
 def listar_fila():
     return _service.listar_fila()
 
 
+#rota para o front chekin-recepcao
 @router.delete("/fila/proximo")
 def atender_proximo():
     try:
         return _service.atender_proximo()
     except FilaVaziaError as erro:
         raise HTTPException(status_code=404, detail=str(erro))
+
+
+#rota apra o front chekin-recepcao
+@router.get("/historico")
+def listar_historico():
+    return _service.listar_historico()

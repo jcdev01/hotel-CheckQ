@@ -5,7 +5,7 @@ __pycache__/
 *.egg-info/
 .eggs/
 
-# Ambientes virtuais
+# --- Ambientes virtuais ---
 venv/
 .venv/
 env/
@@ -17,6 +17,11 @@ ENV/
 
 # --- Dados persistidos (não versionar snapshot da fila) ---
 backend/dados/*.json
+
+# --- Banco de dados SQLite ---
+*.db
+*.sqlite
+*.sqlite3
 
 # --- Testes / cobertura ---
 .pytest_cache/
@@ -31,8 +36,3 @@ Thumbs.db
 
 # --- Logs ---
 *.log
-
-.venv/
-__pycache__/
-*.pyc
-.env

@@ -1,5 +1,6 @@
 from domain.checkin import Checkin
 from repository.checkin_repository import CheckinRepository
+from datetime import datetime
 
 
 class QuartoJaOcupadoError(Exception):
@@ -15,7 +16,7 @@ class CheckinService:
         self._repository = repository
 
     def solicitar_checkin(self, nome_hospede: str, numero_quarto: int,
-                           horario_entrada: str, horario_saida: str) -> Checkin:
+                           horario_entrada: datetime, horario_saida: datetime) -> Checkin:
         """Cria um novo check-in, bloqueando quarto já ocupado."""
         todos = self._repository.listar_todos()
         quarto_ocupado = any(c.numero_quarto == numero_quarto for c in todos)
@@ -41,3 +42,8 @@ class CheckinService:
             raise FilaVaziaError("Não há check-ins aguardando na fila")
     def listar_fila(self) -> list[Checkin]:
         return self._repository.listar_todos()
+
+
+
+    def listar_historico(self) -> list[Checkin]:
+        return self._repository.listar_historico()

@@ -1,4 +1,7 @@
-# executar o comando uvicorn main:app --reload (a partir de dentro da pasta backend/)
+#Executar os comandos abaixo para iniciar o servidor:
+#cd backend
+#uvicorn main:app --reload
+
 from fastapi import FastAPI
 from routes.checkin_routes import router as checkin_router
 
