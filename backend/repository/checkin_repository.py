@@ -1,3 +1,5 @@
+import os
+
 from sqlalchemy import create_engine, select
 from sqlalchemy.orm import Session
 from domain.base import Base
@@ -8,6 +10,7 @@ from domain.historico_checkin import HistoricoCheckin
 class CheckinRepository:
     def __init__(self, caminho_banco: str = "sqlite:///data/checkin.db"):
         self._engine = create_engine(caminho_banco)
+        os.makedirs("data", exist_ok=True)  
         Base.metadata.create_all(self._engine)  # cria a tabela se não existir
 
     def adicionar(self, checkin: Checkin) -> Checkin:
