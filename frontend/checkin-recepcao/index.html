@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Área da Recepção — Check-in</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="topbar__brand">
+        <div class="topbar__logo">HC</div>
+        <div>
+          <h1>Área da Recepção</h1>
+          <p class="topbar__subtitle">Check-in de hóspedes</p>
+        </div>
+      </div>
+
+      <div class="topbar__counter" id="counter">
+        <span class="topbar__counter-number" id="counterNumber">0</span>
+        <span class="topbar__counter-label">na fila</span>
+      </div>
+    </header>
+
+    <main class="stage">
+      <div class="stage__inner">
+        <!-- CARD PRINCIPAL: hóspede atual da fila -->
+        <section class="checkin-card" id="checkinCard">
+          <div class="checkin-card__content" id="checkinContent">
+            <span class="checkin-card__tag" id="cardTag">Próximo check-in</span>
+
+            <div class="checkin-card__guest">
+              <div class="checkin-card__avatar" id="guestAvatar">—</div>
+              <div>
+                <h2 class="checkin-card__name" id="guestName">—</h2>
+                <p class="checkin-card__room" id="guestRoom">—</p>
+              </div>
+            </div>
+
+            <dl class="checkin-card__grid">
+              <div>
+                <dt>Data de entrada </dt>
+                <dd id="guestCheckin">—</dd>
+              </div>
+              <div>
+                <dt>Data de saída</dt>
+                <dd id="guestCheckout">—</dd>
+              </div>
+              <div>
+                <dt>Phone</dt>
+                <dd id="guestWait">—</dd>
+              </div>
+              <div>
+                <dt>Posição na fila</dt>
+                <dd id="guestPosition">—</dd>
+              </div>
+            </dl>
+
+            <button class="btn-attend" id="attendBtn">
+              <span class="btn-attend__icon">✓</span>
+              <span id="attendBtnLabel">Registrar check-in</span>
+            </button>
+          </div>
+
+          <!-- estado vazio, dentro do próprio card -->
+          <div class="empty-state" id="emptyState" hidden>
+            <div class="empty-state__illustration">
+              <svg
+                viewBox="0 0 120 120"
+                width="88"
+                height="88"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <circle
+                  cx="60"
+                  cy="60"
+                  r="58"
+                  fill="var(--color-surface-alt)"
+                />
+                <rect
+                  x="30"
+                  y="46"
+                  width="60"
+                  height="40"
+                  rx="6"
+                  fill="var(--color-primary-100)"
+                  stroke="var(--color-primary-300)"
+                  stroke-width="2"
+                />
+                <rect
+                  x="38"
+                  y="54"
+                  width="44"
+                  height="6"
+                  rx="3"
+                  fill="var(--color-primary-300)"
+                />
+                <rect
+                  x="38"
+                  y="66"
+                  width="28"
+                  height="6"
+                  rx="3"
+                  fill="var(--color-primary-200)"
+                />
+                <circle
+                  cx="60"
+                  cy="34"
+                  r="10"
+                  fill="var(--color-primary-200)"
+                />
+                <path
+                  d="M46 46c0-8 6-14 14-14s14 6 14 14"
+                  stroke="var(--color-primary-300)"
+                  stroke-width="2"
+                  fill="none"
+                />
+                <path
+                  d="M42 92c4-10 12-16 18-16s14 6 18 16"
+                  stroke="var(--color-primary-300)"
+                  stroke-width="2"
+                  fill="none"
+                  stroke-linecap="round"
+                />
+              </svg>
+            </div>
+            <h3>Nenhum check-in aguardando no momento</h3>
+            <p>
+              Assim que um hóspede entrar na fila, ele aparecerá aqui
+              automaticamente.
+            </p>
+          </div>
+        </section>
+
+        <!-- coluna lateral: próximos da fila + formulário de adicionar -->
+        <div class="side-column">
+          <aside class="upcoming" id="upcoming">
+            <h4 class="upcoming__title">Próximos na fila</h4>
+            <div class="upcoming__list" id="upcomingList"></div>
+          </aside> 
+        </div>
+
+ 
+            </button>
+          </aside>
+        </div>
+      </div>
+    </main>
+
+    <div class="toast" id="toast"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/animejs/dist/bundles/anime.umd.min.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
