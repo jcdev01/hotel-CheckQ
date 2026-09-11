@@ -11,6 +11,6 @@ class Usuario(Base):
     nome: Mapped[str] = mapped_column(String)
     cpf: Mapped[str] = mapped_column(String, unique=True, index=True)
     email: Mapped[str] = mapped_column(String, unique=True, index=True)
-    senha_hash: Mapped[str] = mapped_column(String)
+    senha: Mapped[str] = mapped_column(String)
     telefone: Mapped[str] = mapped_column(String)
     data_nascimento: Mapped[date] = mapped_column(Date)

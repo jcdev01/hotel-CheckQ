@@ -42,8 +42,3 @@ class CheckinService:
             raise FilaVaziaError("Não há check-ins aguardando na fila")
     def listar_fila(self) -> list[Checkin]:
         return self._repository.listar_todos()
-
-
-
-    def listar_historico(self) -> list[Checkin]:
-        return self._repository.listar_historico()
