@@ -8,7 +8,6 @@ from domain.base import Base
     
 class HistoricoCheckin(Base):
     __tablename__ = "historico_checkin"
-
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
     nome_hospede: Mapped[str] = mapped_column(String)
     numero_quarto: Mapped[int] = mapped_column(Integer)
