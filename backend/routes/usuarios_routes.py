@@ -43,3 +43,22 @@ def cadastrar_usuario(dados: UsuarioCreateSchema):
         return usuario
     except (UsuarioJaExisteError, MenorDeIdadeError, DadosInvalidosError) as erro:
         raise HTTPException(status_code=400, detail=str(erro))
+
+@router.get("/usuarios/{usuario_id}")
+def obter_usuario(usuario_id: int):
+    try:
+        usuario = _service.obter_por_id(usuario_id)
+        return usuario
+    except UsuarioNaoEncontradoError as erro:
+        raise HTTPException(status_code=404, detail=str(erro))
+
+@router.delete("/usuarios/{usuario_id}")
+def deletar_usuario(usuario_id: int):
+    try:
+        _service.remover_usuario(usuario_id)
+        return {"message": f"Usuário com ID {usuario_id} deletado com sucesso."}
+    except UsuarioNaoEncontradoError as erro: 
+        raise HTTPException(status_code=404, detail=str(erro))
+
+
+
