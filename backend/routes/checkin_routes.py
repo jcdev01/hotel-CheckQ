@@ -24,7 +24,7 @@ class CheckinCreateSchema(BaseModel):
     horario_saida: datetime
 
 #rota para o front chekin-app
-@router.post("fila")
+@router.post("/fila")
 def solicitar_checkin(dados: CheckinCreateSchema):
     try:
         checkin = _service.solicitar_checkin(
