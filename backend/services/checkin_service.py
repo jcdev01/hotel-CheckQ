@@ -10,20 +10,30 @@ class QuartoJaOcupadoError(Exception):
 class FilaVaziaError(Exception):
     """Levantado quando a recepção tenta atender e não há ninguém na fila."""
 
+class NumeroQuartoInvalidoError(Exception):
+    """Levantado quando o número do quarto está fora do limite do hotel."""
+
 
 class CheckinService:
+    total_quartos = 100
+
     def __init__(self, repository: CheckinRepository):
         self._repository = repository
 
-    def solicitar_checkin(self, nome_hospede: str, numero_quarto: int,
-                           horario_entrada: datetime, horario_saida: datetime) -> Checkin:
+    def solicitar_checkin(self, nome_hospede: str, numero_quarto: int, horario_entrada: datetime, horario_saida: datetime) -> Checkin:
         """Cria um novo check-in, bloqueando quarto já ocupado."""
+
+        if numero_quarto < 1 or numero_quarto > self.total_quartos:
+            raise NumeroQuartoInvalidoError(
+                f"Número do quarto inválido. O hotel possui até {self.total_quartos} quartos disponíveis."
+            )
+        
         todos = self._repository.listar_todos()
         quarto_ocupado = any(c.numero_quarto == numero_quarto for c in todos)
 
         if quarto_ocupado:
             raise QuartoJaOcupadoError(
-                f"O quarto {numero_quarto} já está ocupado por outro check-in na fila"
+                f"O quarto {numero_quarto} já está ocupado por outro check-in."
             )
 
         novo_checkin = Checkin(
