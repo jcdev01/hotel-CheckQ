@@ -1,11 +1,44 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hotel Check-in app</title>
-</head> 
+    <title>Solicitar Check-in</title>
+    <link rel="stylesheet" href="style.css">
+</head>
 <body>
-    
+    <main class="container">
+        <header>
+            <h1>Solicitar Check-in</h1>
+            <p>Preencha os dados abaixo para entrar na fila da recepção.</p>
+        </header>
+
+        <form id="checkinForm">
+            <div class="input-group">
+                <label for="nome_hospede">Nome Completo</label>
+                <input type="text" id="nome_hospede" name="nome_hospede" required>
+            </div>
+
+            <div class="input-group">
+                <label for="numero_quarto">Número do Quarto</label>
+                <input type="number" id="numero_quarto" name="numero_quarto" required>
+            </div>
+
+            <div class="input-group">
+                <label for="horario_entrada">Data e Hora de Entrada</label>
+                <input type="datetime-local" id="horario_entrada" name="horario_entrada" required>
+            </div>
+
+            <div class="input-group">
+                <label for="horario_saida">Data e Hora de Saída</label>
+                <input type="datetime-local" id="horario_saida" name="horario_saida" required>
+            </div>
+
+            <button type="submit" id="submitBtn">Entrar na Fila</button>
+        </form>
+        <div id="mensagemFeedback"></div>
+    </main>
+
+    <script src="script.js"></script>
 </body>
 </html>
