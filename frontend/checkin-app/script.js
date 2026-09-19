@@ -42,4 +42,7 @@ document.getElementById('checkinForm').addEventListener('submit', async (e) => {
         btn.disabled = false;
         btn.textContent = 'Entrar na Fila';
     }
+    
+
+
 });

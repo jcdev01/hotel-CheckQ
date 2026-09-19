@@ -121,3 +121,19 @@ class UsuarioService:
     def remover_usuario(self, usuario_id: int) -> bool:
         self.obter_por_id(usuario_id)
         return self._repository.deletar(usuario_id)
+
+
+    
+
+    def autenticar_usuario(self, email: str, senha: str) -> Usuario:
+        usuario = self._repository.buscar_por_email(email)
+
+        if not usuario:
+            raise UsuarioNaoEncontradoError(
+                f"Usuário com e-mail {email} não foi encontrado."
+            )
+
+        if not comparar_senha(senha, usuario.senha):
+            raise DadosInvalidosError("Senha incorreta.")
+
+        return usuario

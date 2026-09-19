@@ -4,9 +4,10 @@
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from routes.checkin_routes import router as checkin_router
+from routes.checkin_routes import router as checkin_routes
 from routes.historico_chekin_routes import router as historico_chekin_routes
-from routes.usuarios_routes import router as usuario_router
+from routes.usuarios_routes import router as usuario_routes
+from routes.auth_routes import router as auth_routes
 
 app = FastAPI()
 
@@ -18,6 +19,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.include_router(checkin_router)
+app.include_router(checkin_routes)
 app.include_router(historico_chekin_routes)
-app.include_router(usuario_router)
+app.include_router(usuario_routes)
+app.include_router(auth_routes)
