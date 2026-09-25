@@ -7,6 +7,8 @@ from services.checkin_service import (
     QuartoJaOcupadoError,
     NumeroQuartoInvalidoError,
     FilaVaziaError,
+    DataEntradaInvalidaError,
+    DataSaidaInvalidaError
 )
 from repository.checkin_repository import CheckinRepository
 
@@ -35,10 +37,15 @@ def solicitar_checkin(dados: CheckinCreateSchema):
             horario_saida=dados.horario_saida,
         )
         return checkin
+    except DataEntradaInvalidaError as erro:
+        raise HTTPException(status_code=409, detail=str(erro))
+    except DataSaidaInvalidaError as erro:
+        raise HTTPException(status_code=409, detail =str(erro))
     except QuartoJaOcupadoError as erro:
         raise HTTPException(status_code=409, detail=str(erro))
     except NumeroQuartoInvalidoError as erro:
         raise HTTPException(status_code=400, detail=str(erro))
+  
 
 #rota para o front chekin-recepcao
 @router.get("/fila")
