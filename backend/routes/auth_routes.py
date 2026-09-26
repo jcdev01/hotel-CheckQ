@@ -36,11 +36,18 @@ def login(dados: LoginSchema):
 @router.post("/login")
 def login_admin(dados: LoginAdminSchema):
     try:
-        _auth_service.autenticar_admin(dados.username, dados.password)
+        _auth_service.autenticar_admin(
+            dados.username,
+            dados.password
+        )
+
         return {
             "message": "Autenticação realizada com sucesso",
-            
             "authenticated": True
         }
+
     except CredenciaisInvalidasError as erro:
-        raise HTTPException(status_code=401, detail=str(erro))
+        raise HTTPException(
+            status_code=401,
+            detail=str(erro)
+        )
