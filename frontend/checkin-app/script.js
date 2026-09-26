@@ -1,14 +1,36 @@
 const API_URL = 'http://127.0.0.1:8000';
 
-document.getElementById('checkinForm').addEventListener('submit', async (e) => {
+const welcomeScreen = document.getElementById('welcomeScreen');
+const checkinScreen = document.getElementById('checkinScreen');
+const startCheckinBtn = document.getElementById('startCheckinBtn');
+const backBtn = document.getElementById('backBtn');
+
+const checkinForm = document.getElementById('checkinForm');
+const submitBtn = document.getElementById('submitBtn');
+const mensagem = document.getElementById('mensagemFeedback');
+
+function showCheckinScreen() {
+    welcomeScreen.classList.add('hidden');
+    checkinScreen.classList.remove('hidden');
+    document.getElementById('nome_hospede').focus();
+}
+
+function showWelcomeScreen() {
+    checkinScreen.classList.add('hidden');
+    welcomeScreen.classList.remove('hidden');
+    mensagem.textContent = '';
+}
+
+startCheckinBtn.addEventListener('click', showCheckinScreen);
+backBtn.addEventListener('click', showWelcomeScreen);
+
+checkinForm.addEventListener('submit', async (e) => {
     e.preventDefault();
 
-    const btn = document.getElementById('submitBtn');
-    const mensagem = document.getElementById('mensagemFeedback');
-    btn.disabled = true;
-    btn.textContent = 'Enviando...';
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Enviando...';
+    mensagem.textContent = '';
 
-    // objeto com os dados do form
     const payload = {
         nome_hospede: document.getElementById('nome_hospede').value,
         numero_quarto: parseInt(document.getElementById('numero_quarto').value),
@@ -19,27 +41,31 @@ document.getElementById('checkinForm').addEventListener('submit', async (e) => {
     try {
         const response = await fetch(`${API_URL}/fila`, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: {
+                'Content-Type': 'application/json'
+            },
             body: JSON.stringify(payload)
         });
 
         if (response.ok) {
-            mensagem.textContent = 'Check-in solicitado com sucesso! Aguarde na recepção.';
-            mensagem.style.color = 'green';
-            document.getElementById('checkinForm').reset();
+            mensagem.textContent =
+                'Check-in solicitado com sucesso! Aguarde na recepção.';
+            mensagem.style.color = 'var(--success)';
+            checkinForm.reset();
         } else if (response.status === 409) {
             mensagem.textContent = 'Erro: Este quarto já está ocupado!';
-            mensagem.style.color = 'red';
+            mensagem.style.color = 'var(--error)';
         } else {
             mensagem.textContent = 'Erro ao processar solicitação.';
-            mensagem.style.color = 'red';
+            mensagem.style.color = 'var(--error)';
         }
     } catch (error) {
         console.error(error);
-        mensagem.textContent = 'Erro de conexão com o servidor. Verifique se a API está rodando.';
-        mensagem.style.color = 'red';
+        mensagem.textContent =
+            'Erro de conexão com o servidor. Verifique se a API está rodando.';
+        mensagem.style.color = 'var(--error)';
     } finally {
-        btn.disabled = false;
-        btn.textContent = 'Entrar na Fila';
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Entrar na Fila';
     }
 });
