@@ -3,42 +3,75 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Solicitar Check-in</title>
+    <title>Hotel CheckQ</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <main class="container">
-        <header>
-            <h1>Solicitar Check-in</h1>
-            <p>Preencha os dados abaixo para entrar na fila da recepção.</p>
-        </header>
+<main class="app-container">
 
-        <form id="checkinForm">
-            <div class="input-group">
-                <label for="nome_hospede">Nome Completo</label>
-                <input type="text" id="nome_hospede" name="nome_hospede" required>
-            </div>
+    <section id="welcomeScreen" class="screen welcome-screen">
+        <div class="welcome-card">
+            <div class="logo" aria-label="Hotel CheckQ">🏨</div>
+            <h1>Olá, Jairo!</h1>
+            <p class="welcome-text">
+                Bem-vindo ao <strong>Hotel CheckQ</strong>.
+                Quando estiver pronto, solicite seu check-in
+                e acompanhe sua posição na fila.
+            </p>
+            <button type="button" id="startCheckinBtn" class="primary-button">
+                Solicitar check-in <span aria-hidden="true">→</span>
+            </button>
+            <p class="service-hours">
+                <span aria-hidden="true">◷</span>
+                Horário de atendimento: 08h às 22h
+            </p>
+        </div>
+    </section>
 
-            <div class="input-group">
-                <label for="numero_quarto">Número do Quarto</label>
-                <input type="number" id="numero_quarto" name="numero_quarto" required>
-            </div>
+    <section id="checkinScreen" class="screen checkin-screen hidden">
+        <div class="checkin-card">
+            <button type="button" id="backBtn" class="back-button">← Voltar</button>
 
-            <div class="input-group">
-                <label for="horario_entrada">Data e Hora de Entrada</label>
-                <input type="datetime-local" id="horario_entrada" name="horario_entrada" required>
-            </div>
+            <header>
+                <h1>Solicitar Check-in</h1>
+                <p>Preencha os dados abaixo para entrar na fila da recepção.</p>
+            </header>
 
-            <div class="input-group">
-                <label for="horario_saida">Data e Hora de Saída</label>
-                <input type="datetime-local" id="horario_saida" name="horario_saida" required>
-            </div>
+            <form id="checkinForm">
+                <div class="input-group">
+                    <label for="nome_hospede">Nome Completo</label>
+                    <input type="text" id="nome_hospede" name="nome_hospede"
+                           autocomplete="name" required>
+                </div>
 
-            <button type="submit" id="submitBtn">Entrar na Fila</button>
-        </form>
-        <div id="mensagemFeedback"></div>
-    </main>
+                <div class="input-group">
+                    <label for="numero_quarto">Número do Quarto</label>
+                    <input type="number" id="numero_quarto" name="numero_quarto"
+                           min="1" required>
+                </div>
 
-    <script src="script.js"></script>
+                <div class="input-group">
+                    <label for="horario_entrada">Data e Hora de Entrada</label>
+                    <input type="datetime-local" id="horario_entrada"
+                           name="horario_entrada" required>
+                </div>
+
+                <div class="input-group">
+                    <label for="horario_saida">Data e Hora de Saída</label>
+                    <input type="datetime-local" id="horario_saida"
+                           name="horario_saida" required>
+                </div>
+
+                <button type="submit" id="submitBtn" class="primary-button">
+                    Entrar na Fila
+                </button>
+            </form>
+
+            <div id="mensagemFeedback" role="status" aria-live="polite"></div>
+        </div>
+    </section>
+
+</main>
+<script src="script.js"></script>
 </body>
 </html>
