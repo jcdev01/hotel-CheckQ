@@ -46,15 +46,6 @@ def cadastrar_usuario(dados: UsuarioCreateSchema):
         return usuario
     except (UsuarioJaExisteError, MenorDeIdadeError, DadosInvalidosError) as erro:
         raise HTTPException(status_code=400, detail=str(erro))
-@router.post("/admin/user")
-def criar_user_global(dados: UsuarioGlobalSchema):
-    try:
-            username=_service.cadastrar_usuario(
-            password=dados.password
-        )
-    except (DadosInvalidosError) as erro:
-        raise HTTPException(status_code=400, detail=str(erro))
-
 
 @router.get("/usuarios/{usuario_id}")
 def obter_usuario(usuario_id: int):
