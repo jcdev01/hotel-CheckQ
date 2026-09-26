@@ -17,6 +17,8 @@ _auth_service = AuthService()
 class LoginSchema(BaseModel):
     email: str
     senha: str
+
+class LoginAdminSchema(BaseModel):
     username: str
     password: str
 

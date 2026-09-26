@@ -77,7 +77,7 @@ class UsuarioService:
         )
 
         return self._repository.adicionar(novo_usuario)
-
+        
     def obter_por_id(self, usuario_id: int) -> Usuario:
         usuario = self._repository.buscar_por_id(usuario_id)
 
