@@ -1,6 +1,6 @@
 import secrets
 from datetime import datetime, timedelta
-
+from security.senha import verificar_credenciais_admin
 from domain.usuario import Usuario
 
 # Guarda os tokens válidos em memória: {token: (usuario_id, expira_em)}
@@ -8,6 +8,8 @@ _tokens_ativos: dict[str, tuple[int, datetime]] = {}
 
 DURACAO_TOKEN = timedelta(hours=2)
 
+class CredenciaisInvalidasError(Exception):
+    pass
 
 class AuthService:
     def gerar_token(self, usuario: Usuario) -> str:
@@ -30,3 +32,8 @@ class AuthService:
             return None
 
         return usuario_id
+
+    def autenticar_admin(self, username: str, password: str) -> bool:
+        if not verificar_credenciais_admin(username, password):
+            raise CredenciaisInvalidasError("Credenciais de administrador inválidas.")
+        return True
