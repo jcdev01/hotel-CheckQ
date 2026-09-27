@@ -24,6 +24,9 @@ class UsuarioCreateSchema(BaseModel):
     senha: str
     telefone: str
     data_nascimento: datetime
+class UsuarioGlobalSchema(BaseModel):
+    username: str
+    password: str 
 
 @router.get("/usuarios")
 def listar_usuarios():
@@ -59,6 +62,7 @@ def deletar_usuario(usuario_id: int):
         return {"message": f"Usuário com ID {usuario_id} deletado com sucesso."}
     except UsuarioNaoEncontradoError as erro: 
         raise HTTPException(status_code=404, detail=str(erro))
+
 
 
 
