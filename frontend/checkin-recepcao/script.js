@@ -62,14 +62,37 @@ document.getElementById('attendBtn').addEventListener('click', async () => {
         });
 
         if (response.ok) {
-            mostrarToast('Check-in concluído com sucesso!');
+            Swal.fire({
+                title: 'Check-in concluído!',
+                text: 'Hóspede atendido com sucesso.',
+                icon: 'success',
+                timer: 2000,
+                showConfirmButton: false
+            });
             carregarFila();
+        } else if (response.status === 404) {
+            Swal.fire({
+                title: 'Fila vazia',
+                text: 'Não há ninguém aguardando no momento.',
+                icon: 'info',
+                confirmButtonText: 'Entendi'
+            });
         } else {
-            mostrarToast('Erro ao atender hóspede.');
+            Swal.fire({
+                title: 'Erro',
+                text: 'Erro ao atender hóspede.',
+                icon: 'error',
+                confirmButtonText: 'Entendi'
+            });
         }
     } catch (error) {
         console.error(error);
-        mostrarToast('Erro de conexão.');
+        Swal.fire({
+            title: 'Erro de conexão',
+            text: 'Não foi possível conectar à API.',
+            icon: 'error',
+            confirmButtonText: 'Entendi'
+        });
     }
 });
 

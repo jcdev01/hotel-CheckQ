@@ -37,14 +37,16 @@ def solicitar_checkin(dados: CheckinCreateSchema):
             horario_saida=dados.horario_saida,
         )
         return checkin
+    except ValueError as erro:
+        raise HTTPException(status_code=400, detail=str(erro))
     except DataEntradaInvalidaError as erro:
-        raise HTTPException(status_code=409, detail=str(erro))
+        raise HTTPException(status_code=400, detail=str(erro))
     except DataSaidaInvalidaError as erro:
-        raise HTTPException(status_code=409, detail =str(erro))
-    except QuartoJaOcupadoError as erro:
-        raise HTTPException(status_code=409, detail=str(erro))
+        raise HTTPException(status_code=400, detail=str(erro))
     except NumeroQuartoInvalidoError as erro:
         raise HTTPException(status_code=400, detail=str(erro))
+    except QuartoJaOcupadoError as erro:
+        raise HTTPException(status_code=409, detail=str(erro))
   
 
 #rota para o front chekin-recepcao

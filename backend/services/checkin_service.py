@@ -45,7 +45,7 @@ class CheckinService:
             raise ValueError("O nome do hóspede não pode ser vazio.")
 
         if numero_quarto < 1 or numero_quarto > self.total_quartos:
-            raise NumeroQuartoInvalidoError(
+            raise NumeroQuartoInvalidoError(    
                 f"Número do quarto inválido. O hotel possui até {self.total_quartos} quartos disponíveis."
             )
 
