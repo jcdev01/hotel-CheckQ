@@ -5,6 +5,11 @@ const checkinScreen = document.getElementById('checkinScreen');
 const startCheckinBtn = document.getElementById('startCheckinBtn');
 const backBtn = document.getElementById('backBtn');
 
+const nomeUsuario = localStorage.getItem('hospede_logado');
+
+document.getElementById('nomeUsuario').textContent =
+    nomeUsuario || 'hóspede';
+
 const checkinForm = document.getElementById('checkinForm');
 const submitBtn = document.getElementById('submitBtn');
 const mensagem = document.getElementById('mensagemFeedback');
