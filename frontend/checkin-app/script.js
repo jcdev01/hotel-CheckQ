@@ -4,6 +4,7 @@ const welcomeScreen = document.getElementById('welcomeScreen');
 const checkinScreen = document.getElementById('checkinScreen');
 const startCheckinBtn = document.getElementById('startCheckinBtn');
 const backBtn = document.getElementById('backBtn');
+const logoutBtn = document.getElementById('logoutBtn');
 
 const nomeUsuario = localStorage.getItem('hospede_logado');
 
@@ -28,6 +29,11 @@ function showWelcomeScreen() {
 
 startCheckinBtn.addEventListener('click', showCheckinScreen);
 backBtn.addEventListener('click', showWelcomeScreen);
+logoutBtn.addEventListener('click', () => {
+    localStorage.removeItem('hospede_logado');
+
+    window.location.href = '../login-app/index.html';
+});
 
 checkinForm.addEventListener('submit', async (e) => {
     e.preventDefault();
