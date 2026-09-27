@@ -45,7 +45,7 @@ class CheckinService:
             raise ValueError("O nome do hóspede não pode ser vazio.")
 
         if numero_quarto < 1 or numero_quarto > self.total_quartos:
-            raise NumeroQuartoInvalidoError(    
+            raise NumeroQuartoInvalidoError(
                 f"Número do quarto inválido. O hotel possui até {self.total_quartos} quartos disponíveis."
             )
 
@@ -59,7 +59,12 @@ class CheckinService:
                 "A data de saída não pode ser antes da de entrada."
             )
 
-        # 2. Regra de negócio que depende do estado atual, checada por último.
+        # 2. Libera quartos cujo horário de saída já passou antes de
+        # checar ocupação, para que um checkout automático nunca deixe
+        # um quarto "preso" indevidamente.
+        self._repository.remover_expirados()
+
+        # 3. Regra de negócio que depende do estado atual, checada por último.
         todos = self._repository.listar_todos()
         quarto_ocupado = any(c.numero_quarto == numero_quarto for c in todos)
 
@@ -84,10 +89,13 @@ class CheckinService:
         comportamento não muda se o repositório trocar de lista em memória
         para banco de dados, por exemplo.
         """
+        self._repository.remover_expirados()
+
         fila = self._repository.listar_todos()
         if not fila:
             raise FilaVaziaError("Não há check-ins aguardando na fila.")
         return self._repository.proximo()
 
     def listar_fila(self) -> list[Checkin]:
+        self._repository.remover_expirados()
         return self._repository.listar_todos()

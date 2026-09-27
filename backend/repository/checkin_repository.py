@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 from domain.base import Base, engine
@@ -6,7 +8,7 @@ from domain.historico_checkin import HistoricoCheckin
 
 
 class CheckinRepository:
-    def __init__(self):  
+    def __init__(self):
         Base.metadata.create_all(engine)  # cria a tabela se não existir
 
     def adicionar(self, checkin: Checkin) -> Checkin:
@@ -36,7 +38,7 @@ class CheckinRepository:
             if checkin is None:
                 raise IndexError("Fila vazia — não há check-in para atender")
 
-            registro_historico =HistoricoCheckin(
+            registro_historico = HistoricoCheckin(
                 nome_hospede=checkin.nome_hospede,
                 numero_quarto=checkin.numero_quarto,
                 horario_entrada=checkin.horario_entrada,
@@ -47,3 +49,26 @@ class CheckinRepository:
             session.delete(checkin)
             session.commit()
             return checkin
+
+    def remover_expirados(self) -> list[Checkin]:
+        """Remove do banco os checkins cujo horario_saida já passou,
+        registrando cada um no histórico antes de remover. Retorna a
+        lista dos checkins removidos (útil para log/depuração)."""
+        with Session(engine) as session:
+            resultado = session.execute(
+                select(Checkin).where(Checkin.horario_saida < datetime.now())
+            )
+            expirados = list(resultado.scalars().all())
+
+            for checkin in expirados:
+                registro_historico = HistoricoCheckin(
+                    nome_hospede=checkin.nome_hospede,
+                    numero_quarto=checkin.numero_quarto,
+                    horario_entrada=checkin.horario_entrada,
+                    horario_saida=checkin.horario_saida,
+                )
+                session.add(registro_historico)
+                session.delete(checkin)
+
+            session.commit()
+            return expirados
