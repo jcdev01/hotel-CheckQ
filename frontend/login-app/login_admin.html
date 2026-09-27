@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acesso Administrativo - Hotel CheckQ</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <main class="container">
+        <header>
+            <h1>Acesso Administrativo</h1>
+            <p>Área restrita à equipe do hotel.</p>
+        </header>
+
+        <form id="adminLoginForm">
+            <div class="input-group">
+                <label for="usuario">Usuário</label>
+                <input type="text" id="usuario" name="usuario" required autocomplete="username">
+            </div>
+
+            <div class="input-group">
+                <label for="senha">Senha</label>
+                <input type="password" id="senha" name="senha" required autocomplete="current-password">
+            </div>
+
+            <button type="submit" id="submitBtn">Entrar</button>
+        </form>
+        <div id="mensagemFeedback" style="margin-top: 1.5rem; text-align: center; font-weight: 500; font-size: 0.9rem;"></div>
+    </main>
+
+    <script src="admin.js"></script>
+</body>
+</html>

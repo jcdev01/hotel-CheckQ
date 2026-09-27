@@ -3,11 +3,9 @@ from pydantic import BaseModel
 from services.auth_service import AuthService, CredenciaisInvalidasError
 
 from services.usuario_service import UsuarioService, UsuarioNaoEncontradoError, DadosInvalidosError
-from services.auth_service import AuthService
 from repository.usuario_repository import UsuarioRepository
 
 router = APIRouter()
-_auth_service = AuthService()
 
 _usuario_repository = UsuarioRepository()
 _usuario_service = UsuarioService(_usuario_repository)
@@ -33,7 +31,7 @@ def login(dados: LoginSchema):
     token = _auth_service.gerar_token(usuario)
     return {"token": token, "nome": usuario.nome}
 
-@router.post("/login")
+@router.post("/admin/login")
 def login_admin(dados: LoginAdminSchema):
     try:
         _auth_service.autenticar_admin(
