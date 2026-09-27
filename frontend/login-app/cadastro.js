@@ -1,11 +1,11 @@
+
 const API_URL = 'http://127.0.0.1:8000';
 
 document.getElementById('cadastroForm').addEventListener('submit', async (e) => {
     e.preventDefault();
-    
+
     const btn = document.getElementById('submitBtn');
-    const mensagem = document.getElementById('mensagemFeedback');
-    
+
     btn.disabled = true;
     btn.textContent = 'Cadastrando...';
 
@@ -14,37 +14,79 @@ document.getElementById('cadastroForm').addEventListener('submit', async (e) => 
         cpf: document.getElementById('cpf').value.trim(),
         email: document.getElementById('email').value.trim(),
         telefone: document.getElementById('telefone').value.trim(),
-        data_nascimento: document.getElementById('data_nascimento').value + "T00:00:00",
+        data_nascimento:
+            document.getElementById('data_nascimento').value + 'T00:00:00',
         senha: document.getElementById('senha').value
     };
+
+    // SweetAlert de carregamento
+    Swal.fire({
+        title: 'Criando sua conta...',
+        text: 'Aguarde enquanto seus dados são cadastrados.',
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        didOpen: () => {
+            Swal.showLoading();
+        }
+    });
 
     try {
         const response = await fetch(`${API_URL}/usuarios`, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: {
+                'Content-Type': 'application/json'
+            },
             body: JSON.stringify(payload)
         });
 
         if (response.ok) {
-            mensagem.textContent = 'Conta criada com sucesso! Redirecionando...';
-            mensagem.style.color = 'green';
-            
-            setTimeout(() => {
-                window.location.href = 'index.html';
-            }, 2000);
+
+            await Swal.fire({
+                icon: 'success',
+                title: 'Cadastro realizado!',
+                text: 'Sua conta foi criada com sucesso.',
+                confirmButtonText: 'Ir para o login'
+            });
+
+            // Redireciona para o login
+            window.location.href = 'login.html';
+
         } else {
-            const erro = await response.json();
-            mensagem.textContent = erro.detail || 'Erro ao realizar cadastro.';
-            mensagem.style.color = 'red';
+
+            let mensagemErro = 'Erro ao realizar cadastro.';
+
+            try {
+                const erro = await response.json();
+
+                if (erro.detail) {
+                    mensagemErro = erro.detail;
+                }
+            } catch {
+                // Mantém a mensagem padrão
+            }
+
+            await Swal.fire({
+                icon: 'error',
+                title: 'Não foi possível cadastrar',
+                text: mensagemErro,
+                confirmButtonText: 'Tentar novamente'
+            });
         }
+
     } catch (error) {
-        console.error(error);
-        mensagem.textContent = 'Erro de conexão com o servidor.';
-        mensagem.style.color = 'red';
+
+        console.error('Erro no cadastro:', error);
+
+        await Swal.fire({
+            icon: 'error',
+            title: 'Erro de conexão',
+            text: 'Não foi possível conectar ao servidor da API.',
+            confirmButtonText: 'OK'
+        });
+
     } finally {
-        if (!response?.ok) {
-            btn.disabled = false;
-            btn.textContent = 'Criar Conta';
-        }
+        btn.disabled = false;
+        btn.textContent = 'Criar Conta';
     }
-})
+});
+
