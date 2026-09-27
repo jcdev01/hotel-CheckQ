@@ -12,11 +12,11 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
     btn.textContent = 'Autenticando...';
 
     try {
-        if (identificacao === 'admin') {
+        if (identificacao.toLowerCase() === 'admin' || identificacao.toLowerCase() === 'jubileu') {
             const response = await fetch(`${API_URL}/admin/login`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email: identificacao,  })
+                body: JSON.stringify({ email: identificacao, senha: senha })
             });
 
             if (response.ok) {

@@ -1,3 +1,4 @@
+import os
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 from datetime import datetime
@@ -27,6 +28,25 @@ class UsuarioCreateSchema(BaseModel):
 class UsuarioGlobalSchema(BaseModel):
     username: str
     password: str 
+class LoginSchema(BaseModel):
+    email: str
+    senha: str
+
+@router.post("/login")
+def login_hospede(dados: LoginSchema):
+    try:
+        usuario = _service.autenticar_usuario(dados.email, dados.senha)
+        return {"mensagem": "Login aprovado", "nome": usuario.nome}
+    except Exception as erro:
+        raise HTTPException(status_code=401, detail="E-mail ou senha incorretos.")
+
+@router.post("/admin/login")
+def login_admin(dados: LoginSchema):
+    admin_user = os.getenv("ADMIN_USERNAME", "admin")
+    admin_pass = os.getenv("ADMIN_PASSWORD", "recepcao123")
+    if dados.email == admin_user and dados.senha == admin_pass:
+        return{"mensagem": "Acessi liberado"}
+    raise HTTPException(status_code=401, detail="adm invalido")
 
 @router.get("/usuarios")
 def listar_usuarios():
@@ -62,7 +82,4 @@ def deletar_usuario(usuario_id: int):
         return {"message": f"Usuário com ID {usuario_id} deletado com sucesso."}
     except UsuarioNaoEncontradoError as erro: 
         raise HTTPException(status_code=404, detail=str(erro))
-
-
-
 
