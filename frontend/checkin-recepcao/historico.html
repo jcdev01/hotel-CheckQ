@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Histórico — Recepção</title>
+    <link rel="stylesheet" href="style.css" />
+    <style>
+        .historico-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            margin-top: 1rem;
+        }
+        .historico-table th {
+            padding: 1rem;
+            color: var(--text-muted);
+            border-bottom: 2px solid var(--color-primary-100);
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 0.5px;
+        }
+        .historico-table td {
+            padding: 1rem;
+            border-bottom: 1px solid #e2e8f0;
+            color: var(--text-main);
+        }
+        .historico-table tr:hover {
+            background-color: var(--color-surface-alt);
+        }
+    </style>
+</head>
+<body>
+    <header class="topbar">
+        <div class="topbar__brand">
+            <div class="topbar__logo">HC</div>
+            <div>
+                <h1>Histórico de Check-ins</h1>
+                <p class="topbar__subtitle">Registros de hóspedes atendidos</p>
+            </div>
+        </div>
+        <div>
+            <a href="index.html" class="btn-attend" style="padding: 0.6rem 1.2rem; font-size: 0.95rem; text-decoration: none;">
+                ← Voltar para Fila
+            </a>
+        </div>
+    </header>
+
+    <main class="stage">
+        <section class="checkin-card" style="max-width: 100%;">
+            <h2 style="margin: 0 0 1rem 0; font-size: 1.25rem;">Check-ins Concluídos</h2>
+            <div id="historicoContainer">
+                <p>Carregando histórico...</p>
+            </div>
+        </section>
+    </main>
+
+    <script src="historico.js"></script>
+</body>
+</html>
